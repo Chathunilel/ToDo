@@ -2,7 +2,6 @@ package com.example.todo.fragments
 
 import android.app.AlertDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
@@ -12,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
@@ -50,7 +50,12 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
         taskViewModel = (activity as MainActivity).taskViewModel
         currentTask = args.task!!
 
-        binding.editTaskTitle.setOnClickListener{
+        binding.editTaskTitle.setText(currentTask.taskTitle)
+        binding.editTaskPrio.setText(currentTask.taskPriority)
+        binding.editTaskDesc.setText(currentTask.taskDescription)
+        binding.editDeadline.setText(currentTask.taskDeadline)
+
+        binding.editTaskFab.setOnClickListener{
             val taskTitle = binding.editTaskTitle.text.toString().trim()
             val taskPrioriy = binding.editTaskPrio.text.toString().trim()
             val taskDescription = binding.editTaskDesc.text.toString().trim()

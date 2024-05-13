@@ -39,7 +39,7 @@
         <EditText
             android:id="@+id/addTaskDesc"
             android:layout_width="399dp"
-            android:layout_height="400dp"
+            android:layout_height="317dp"
             android:layout_below="@id/addTaskTitle"
             android:layout_marginTop="80dp"
             android:background="@drawable/border"

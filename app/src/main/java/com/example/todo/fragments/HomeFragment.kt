@@ -1,19 +1,16 @@
 package com.example.todo.fragments
-
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
-import androidx.lifecycle.AndroidViewModel
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.todo.MainActivity
@@ -22,7 +19,6 @@ import com.example.todo.adapter.TaskAdapter
 import com.example.todo.databinding.FragmentHomeBinding
 import com.example.todo.model.Task
 import com.example.todo.viewmodel.TaskViewModel
-import com.google.android.material.circularreveal.CircularRevealHelper.Strategy
 
 
 class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener, MenuProvider {
@@ -52,9 +48,9 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         taskViewModel = (activity as MainActivity).taskViewModel
         setupHomeRecyclerView()
 
-        binding.addTaskFab.setOnClickListener { {
+        binding.addTaskFab.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_addTaskFragment)
-        } }
+         }
     }
 
     private fun updateUI(task: List<Task>?){
