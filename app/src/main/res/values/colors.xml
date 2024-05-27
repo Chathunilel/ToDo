@@ -3,9 +3,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="darkestPink">#A25B5B</color>
-    <color name="darkPink">#DBA979</color>
     <color name="lightPink">#ECCA9C</color>
     <color name="lightGreen">#AFD198</color>
-    <color name="ash">#E8EFCF</color>
-
+    <color name="high_priority">#D8AE7E</color>
+    <color name="meduim_priority">#F8C794</color>
+    <color name="low_priority">#FFE0B5</color>
+    <color name="def">#FFF2D7</color>
 </resources>

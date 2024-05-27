@@ -1,5 +1,6 @@
 package com.example.todo.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -21,8 +22,8 @@ import com.example.todo.viewmodel.TaskViewModel
 
 class AddTaskFragment : Fragment(R.layout.fragment_add_task), MenuProvider {
 
-    private var addTaskBindng: FragmentAddTaskBinding? = null
-    private val binding get() = addTaskBindng!!
+    private var addTaskBinding: FragmentAddTaskBinding? = null
+    private val binding get() = addTaskBinding!!
 
     private lateinit var taskViewModel: TaskViewModel
     private lateinit var addTaskView: View
@@ -32,7 +33,7 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task), MenuProvider {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        addTaskBindng = FragmentAddTaskBinding.inflate(inflater, container, false)
+        addTaskBinding = FragmentAddTaskBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -45,22 +46,37 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task), MenuProvider {
         taskViewModel = (activity as MainActivity).taskViewModel
         addTaskView = view
 
+        binding.addTaskPrio.setOnClickListener {
+            showPriorityDialog()
+        }
+    }
+
+    private fun showPriorityDialog() {
+        val priorities = arrayOf("High", "Medium", "Low")
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Priority")
+        builder.setItems(priorities) { _, which ->
+            val selectedPriority = priorities[which]
+            binding.addTaskPrio.setText(selectedPriority)
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun saveTask(view: View){
         val taskTitle = binding.addTaskTitle.text.toString().trim()
-        val taskPriority = binding.addTaskPrio.text.toString().trim()
         val taskDescription = binding.addTaskDesc.text.toString().trim()
+        val taskPriority = binding.addTaskPrio.text.toString().trim()
         val taskDeadline = binding.addDeadline.text.toString().trim()
 
-
         if(taskTitle.isNotEmpty()){
-            val task = Task(0, taskTitle,taskPriority, taskDescription, taskDeadline)
+            val task = Task(0, taskTitle, taskPriority, taskDescription, taskDeadline)
             taskViewModel.addTask(task)
 
             Toast.makeText(addTaskView.context, "Task Saved", Toast.LENGTH_SHORT).show()
             view.findNavController().popBackStack(R.id.homeFragment, false)
-        }else {
+        } else {
             Toast.makeText(addTaskView.context, "Please enter task title", Toast.LENGTH_SHORT).show()
         }
     }
@@ -83,6 +99,6 @@ class AddTaskFragment : Fragment(R.layout.fragment_add_task), MenuProvider {
 
     override fun onDestroy() {
         super.onDestroy()
-        addTaskBindng = null
+        addTaskBinding = null
     }
 }

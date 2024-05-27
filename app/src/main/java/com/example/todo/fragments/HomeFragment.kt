@@ -1,4 +1,5 @@
 package com.example.todo.fragments
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -20,7 +21,6 @@ import com.example.todo.databinding.FragmentHomeBinding
 import com.example.todo.model.Task
 import com.example.todo.viewmodel.TaskViewModel
 
-
 class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextListener, MenuProvider {
 
     private var homeBinding: FragmentHomeBinding? = null
@@ -36,7 +36,6 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         // Inflate the layout for this fragment
         homeBinding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,15 +49,15 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
 
         binding.addTaskFab.setOnClickListener {
             it.findNavController().navigate(R.id.action_homeFragment_to_addTaskFragment)
-         }
+        }
     }
 
-    private fun updateUI(task: List<Task>?){
-        if(task != null){
-            if(task.isNotEmpty()){
+    private fun updateUI(task: List<Task>?) {
+        if (task != null) {
+            if (task.isNotEmpty()) {
                 binding.emptyTasksImage.visibility = View.GONE
                 binding.homeRecyclerView.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.emptyTasksImage.visibility = View.VISIBLE
                 binding.homeRecyclerView.visibility = View.GONE
             }
@@ -74,29 +73,29 @@ class HomeFragment : Fragment(R.layout.fragment_home), SearchView.OnQueryTextLis
         }
 
         activity?.let {
-            taskViewModel.getAllTasks().observe(viewLifecycleOwner){task ->
+            taskViewModel.getAllTasks().observe(viewLifecycleOwner) { task ->
                 taskAdapter.differ.submitList(task)
                 updateUI(task)
             }
         }
     }
 
-    private fun searchTask(query: String?){
-        val searchQuery = "%$query"
-
-        taskViewModel.searchTask(searchQuery).observe(this){list ->
-            taskAdapter.differ.submitList(list)
+    private fun searchTask(query: String?) {
+        query?.let {
+            val searchQuery = "%$query"
+            taskViewModel.searchTask(searchQuery).observe(viewLifecycleOwner) { list ->
+                taskAdapter.differ.submitList(list)
+                updateUI(list)
+            }
         }
     }
 
-    override fun onQueryTextSubmit(query: String?): Boolean {
+    override fun onQueryTextSubmit(p0: String?): Boolean {
         return false
     }
 
     override fun onQueryTextChange(newText: String?): Boolean {
-        if (newText != null){
-            searchTask(newText)
-        }
+        searchTask(newText)
         return true
     }
 

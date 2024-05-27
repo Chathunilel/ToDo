@@ -1,14 +1,14 @@
 package com.example.todo.adapter
 
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.todo.databinding.ActivityMainBinding
 import com.example.todo.databinding.TaskLayoutBinding
-import com.example.todo.fragments.HomeFragment
 import com.example.todo.fragments.HomeFragmentDirections
 import com.example.todo.model.Task
 
@@ -32,6 +32,9 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         }
     }
 
+
+
+
     val differ = AsyncListDiffer(this,differCallback)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
         return TaskViewHolder(
@@ -50,10 +53,30 @@ class TaskAdapter : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         holder.itemBinding.taskDesc.text = currentTask.taskDescription
         holder.itemBinding.taskPrio.text = currentTask.taskPriority
         holder.itemBinding.taskDeadline.text = currentTask.taskDeadline.toString()
-        holder.itemView.setOnClickListener{
+
+        // Set background color based on priority
+        val priorityColor = when (currentTask.taskPriority.toLowerCase()) {
+            "high" -> com.example.todo.R.color.high_priority
+            "medium" -> com.example.todo.R.color.meduim_priority
+            "low" -> com.example.todo.R.color.low_priority
+            else -> com.example.todo.R.color.def  // Default color
+        }
+        holder.itemBinding.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, priorityColor))
+
+        holder.itemView.setOnClickListener {
+            val direction = HomeFragmentDirections.actionHomeFragmentToEditTaskFragment(currentTask)
+            it.findNavController().navigate(direction)
+        }
+
+
+
+    holder.itemBinding.cardView.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, priorityColor))
+
+        holder.itemView.setOnClickListener {
             val direction = HomeFragmentDirections.actionHomeFragmentToEditTaskFragment(currentTask)
             it.findNavController().navigate(direction)
         }
     }
+
 
 }

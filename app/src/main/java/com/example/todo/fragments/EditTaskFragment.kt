@@ -21,7 +21,6 @@ import com.example.todo.databinding.FragmentEditTaskBinding
 import com.example.todo.model.Task
 import com.example.todo.viewmodel.TaskViewModel
 
-
 class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
 
     private var editTaskBinding: FragmentEditTaskBinding? = null
@@ -55,6 +54,10 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
         binding.editTaskDesc.setText(currentTask.taskDescription)
         binding.editDeadline.setText(currentTask.taskDeadline)
 
+        binding.editTaskPrio.setOnClickListener {
+            showPriorityDialog()
+        }
+
         binding.editTaskFab.setOnClickListener{
             val taskTitle = binding.editTaskTitle.text.toString().trim()
             val taskPrioriy = binding.editTaskPrio.text.toString().trim()
@@ -68,8 +71,20 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
             }else {
                 Toast.makeText(context, "Please enter task title", Toast.LENGTH_SHORT).show()
             }
-
         }
+    }
+
+    private fun showPriorityDialog() {
+        val priorities = arrayOf("High", "Medium", "Low")
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Priority")
+        builder.setItems(priorities) { _, which ->
+            val selectedPriority = priorities[which]
+            binding.editTaskPrio.setText(selectedPriority)
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun deleteNote(){
@@ -83,6 +98,7 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
             }
             setNegativeButton("Cancel", null)
         }.create().show()
+
     }
 
     override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
@@ -104,3 +120,4 @@ class EditTaskFragment : Fragment(R.layout.fragment_edit_task), MenuProvider {
         editTaskBinding = null
     }
 }
+
