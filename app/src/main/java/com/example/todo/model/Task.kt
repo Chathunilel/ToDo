@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.parcelize.Parcelize
 
-@Entity(tableName = "tasks" )
+@Entity(tableName = "tasks")
 @Parcelize
 data class Task(
     @PrimaryKey(autoGenerate = true)
@@ -14,5 +14,4 @@ data class Task(
     val taskPriority: String,
     val taskDescription: String,
     val taskDeadline: String
-
-): Parcelable
+) : Parcelable

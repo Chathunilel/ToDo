@@ -1,5 +1,6 @@
 package com.example.todo.database
 
+
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
@@ -20,9 +21,9 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(task: Task)
 
-    @Query("SELECT * FROM TASKS ORDER BY id DESC")
+    @Query("SELECT * FROM tasks ORDER BY id DESC")
     fun getAllTasks(): LiveData<List<Task>>
 
-    @Query("SELECT * FROM TASKS WHERE taskTitle LIKE '%' || :query || '%' OR taskDescription LIKE '%' || :query || '%' OR taskPriority LIKE '%' || :query || '%' OR taskDeadline LIKE '%' || :query || '%'")
+    @Query("SELECT * FROM tasks WHERE taskTitle LIKE '%' || :query || '%' OR taskDescription LIKE '%' || :query || '%' OR taskPriority LIKE '%' || :query || '%' OR taskDeadline LIKE '%' || :query || '%'")
     fun searchTask(query: String?): LiveData<List<Task>>
 }
